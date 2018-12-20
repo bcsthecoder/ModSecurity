@@ -96,7 +96,7 @@ int Rules::loadFromUri(const char *uri) {
     Driver *driver = new Driver();
 
     if (driver->parseFile(uri) == false) {
-        m_parserError << driver->m_parserError.str();
+        m_parserError << driver->m_trail->m_parserError.str();
         delete driver;
         return -1;
     }
@@ -112,13 +112,13 @@ int Rules::load(const char *file, const std::string &ref) {
     Driver *driver = new Driver();
 
     if (driver->parse(file, ref) == false) {
-        m_parserError << driver->m_parserError.str();
+        m_parserError << driver->m_trail->m_parserError.str();
         delete driver;
         return -1;
     }
     int rules = this->merge(driver);
     if (rules == -1) {
-        m_parserError << driver->m_parserError.str();
+        m_parserError << driver->m_trail->m_parserError.str();
         delete driver;
         return -1;
     }
@@ -147,7 +147,7 @@ int Rules::load(const char *plainRules) {
 
 
 std::string Rules::getParserError() {
-    return this->m_parserError.str();
+    return m_parserError.str();
 }
 
 
